@@ -1,33 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { Formulario } from './components/Formulario'
+import { useAuthStore } from './store'
+
+function isLogged() {
+  const logged = useAuthStore(state => state.logged )
+  return logged;
+}
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const logged = useAuthStore(state => state.logged)
+  const user = useAuthStore(state => state.user)
+
+  const changedLogged = useAuthStore(state => state.changeLogged)
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {user && <p>{user?.username}</p>}
+      <p>{logged ? 'ACTIVO' : 'NO ACTIVO'}</p>
+      <p>{isLogged() ? 'ACTIVO' : 'NO ACTIVO'}</p>
+      <button onClick={changedLogged}>PULSAR</button>
+      <Formulario />
     </>
   )
 }
